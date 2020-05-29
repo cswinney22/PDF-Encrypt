@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-                sendEmail("Cswinney22@gmail.com", outputFile);
+                //sendEmail("Cswinney22@gmail.com", outputFile);
                 Toast.makeText(getApplicationContext(),"Done!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -120,23 +120,36 @@ public class MainActivity extends AppCompatActivity {
         PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(outputFile));
 
         String certString = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/id_to_pdf.cer";
-/*
+
         //Certificate encryption
         Certificate cert = getPublicCertificate(certString);
         stamper.setEncryption(new Certificate[]{cert},new int[]{PdfWriter.ALLOW_PRINTING}, PdfWriter.STANDARD_ENCRYPTION_128);
-*/
 
 
+/*
         //Password encryption
         stamper.setEncryption("123456".getBytes(), "123456".getBytes(), PdfWriter.ALLOW_PRINTING, PdfWriter.STANDARD_ENCRYPTION_128);
 
         stamper.createXmpMetadata();
-
+*/
         stamper.close();
         reader.close();
 
     }
 
+    public Certificate getPublicCertificate(String path)
+            throws IOException, CertificateException {
+        FileInputStream is = new FileInputStream(path);
+        CertificateFactory cf = CertificateFactory.getInstance("X.509");
+        X509Certificate cert = (X509Certificate) cf.generateCertificate(is);
+        return cert;
+    }
+
+
+
+
+
+    /*
     public void sendEmail(String email, String filePath){
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_SUBJECT,"This is a test subject");
@@ -151,16 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(intent);
     }
-
-    public Certificate getPublicCertificate(String path)
-            throws IOException, CertificateException {
-        FileInputStream is = new FileInputStream(path);
-        CertificateFactory cf = CertificateFactory.getInstance("X.509");
-        X509Certificate cert = (X509Certificate) cf.generateCertificate(is);
-        return cert;
-    }
-
-
+*/
 
 }
 
